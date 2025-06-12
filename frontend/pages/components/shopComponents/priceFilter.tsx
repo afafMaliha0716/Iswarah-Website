@@ -41,7 +41,8 @@ export default function PriceFilter() {
         );
     };
 
-    return (
+
+    return range[0] !== range[1] ?(
         <>
         <label htmlFor="">Price Range:</label>
 
@@ -74,5 +75,5 @@ export default function PriceFilter() {
             </div>
           </div>
         </>
-    );
+    ): null;
 }

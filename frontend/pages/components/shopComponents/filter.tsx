@@ -37,7 +37,7 @@ export default function Filter({ categories }: { categories: Category[] }) {
           </li>
         ))}
       </ul>
-      <PriceFilter />
+      {<PriceFilter />}
     </div>
   );
 }
