@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',  # JWT authentication for REST framework
     'corsheaders',  # CORS headers for cross-origin requests
     'django_filters',
+    "adminsortable2",
 
     'core',  # Custom app for core functionality
     'products',  # Custom app for product management
@@ -132,7 +134,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = "/static/"
+
+# where collectstatic will gather everything
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

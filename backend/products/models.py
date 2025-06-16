@@ -1,6 +1,39 @@
 from django.db import models
 from django.utils.text import slugify
 
+
+class Size(models.Model):
+    name  = models.CharField(max_length=100, unique=True)
+    slug  = models.SlugField(max_length=100, unique=True, blank=True)
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ["order", "name"]  # fallback to name if order ties
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(max_length=100, unique=True, blank=True)
+    default_size= models.ManyToManyField(Size, related_name="default_for_categories", blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+    
+
+
 class Product(models.Model):
     name = models.CharField(max_length=255, unique=True)
     slug = models.SlugField(max_length=255, unique=True, blank=True)
@@ -10,6 +43,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='products/media/', null=True, blank=True, default= 'products/media/DefaultPic.jpg')
     category = models.ForeignKey("Category", related_name="products", on_delete=models.SET_NULL, null=True,blank=True)
+    sizes = models.ManyToManyField(Size, blank=True, related_name='products')  # Sizes available for this product
 
     def __str__(self):
         return self.name
@@ -30,14 +64,4 @@ class Product(models.Model):
         super().save(*args, **kwargs)
 
 
-class Category(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(max_length=100, unique=True, blank=True)
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return self.name

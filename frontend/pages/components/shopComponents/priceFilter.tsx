@@ -32,8 +32,9 @@ export default function PriceFilter() {
         {
             pathname: router.pathname,
             query: {
-            ...router.query, // preserve other params (e.g. category)
+            ...category && { category }, // include category if it exists
             Price: `${min}-${max}`, // update Price only
+            ...router.query, // keep other query params intact
             },
         },
         undefined,

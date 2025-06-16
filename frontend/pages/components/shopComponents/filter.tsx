@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import "rc-slider/assets/index.css";
 import PriceFilter from "./priceFilter";  
+import SizeFilter from "./sizeFilter";
 import { GetStaticProps } from "next";
 
 interface Category { name: string; slug: string; }
@@ -12,7 +13,16 @@ export default function Filter({ categories }: { categories: Category[] }) {
   const { category = "" } = router.query as { category?: string };
 
   const handleCategoryClick = (slug: string) => {
-    router.push({ query: { category: slug } }, undefined, { shallow: true });
+    router.push(
+    {
+      pathname: router.pathname,
+      query: {
+        ...router.query,
+        category: slug,
+        Price: "",
+        sizes: "",
+
+      } }, undefined, { shallow: true });
   };
 
   return (
@@ -38,6 +48,7 @@ export default function Filter({ categories }: { categories: Category[] }) {
         ))}
       </ul>
       {<PriceFilter />}
+      {<SizeFilter/>}
     </div>
   );
 }

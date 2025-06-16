@@ -23,15 +23,16 @@ export default function Shop({ products: initial, categories }: ShopProps) {
     // wait until router has parsed the URL
     if (!router.isReady) return;
 
-    const { category, Price } = router.query;
+    const { category, Price, sizes } = router.query;
     const filters: Record<string, string | number> = {};
     if (category) filters.category = category as string;
     if (Price) filters.Price = Price as string;
+    if(sizes) filters.sizes = sizes as string;
 
     getProducts(filters)
     .then(setProducts)
     .catch(console.error);
-  }, [router.isReady, router.query.category, router.query.Price]);
+  }, [router.isReady, router.query.category, router.query.Price, router.query.sizes]);
 
 
   return (

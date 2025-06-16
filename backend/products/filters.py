@@ -7,9 +7,11 @@ class ProductFilter(filters.FilterSet):
         lookup_expr="iexact"
     )
     Price = filters.CharFilter(method="filter_price_range")
+
+    sizes = filters.CharFilter(method="filter_by_size")
     class Meta:
         model  = Product
-        fields = ["category", "Price"]
+        fields = ["category", "Price", "sizes"]
 
     def filter_price_range(self, queryset, name, value):
         try:
@@ -18,3 +20,9 @@ class ProductFilter(filters.FilterSet):
         except (ValueError, TypeError):
             return queryset
         return queryset.filter(price__gte=low, price__lte=high)
+    
+    def filter_by_size(self, queryset, name, value): 
+        if(value == "ALL"):
+            return queryset.filter(sizes__isnull=False).distinct().order_by('sizes__order')
+        size_list = [s.strip() for s in value.split(',')]
+        return queryset.filter(sizes__slug__in=size_list).distinct()
