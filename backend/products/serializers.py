@@ -2,6 +2,14 @@ from rest_framework import serializers
 from .models import Product, Category, Size
 from django.conf import settings
 
+
+class SizeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Size
+        fields = ['id', 'name', 'slug']
+        read_only_fields = ['id', 'slug']
+
+        
 class ProductSerializer(serializers.ModelSerializer):
     image = serializers.SerializerMethodField()
 
@@ -9,11 +17,8 @@ class ProductSerializer(serializers.ModelSerializer):
         queryset=Category.objects.all(),
         slug_field='name'
     )
-    sizes = serializers.SlugRelatedField(
-        many=True,
-        queryset=Size.objects.all(),
-        slug_field='name'
-    )
+
+    sizes = SizeSerializer(many=True, read_only=True)
 
     def get_image(self, obj):
         if obj.image:
@@ -42,8 +47,3 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'slug']
         read_only_fields = ['id', 'slug']
 
-class SizeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Size
-        fields = ['id', 'name', 'slug']
-        read_only_fields = ['id', 'slug']

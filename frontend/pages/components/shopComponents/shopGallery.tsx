@@ -14,6 +14,13 @@ export interface Product {
   in_stock: boolean; // BooleanField → boolean
   created_at: string; // DateTimeField → ISO date string
   image: string | null; // ImageField → URL (string) or null if blank
+  sizes: Size[];
+}
+
+interface Size{
+  id: number,
+  name: string,
+  slug: string,
 }
 
 interface HomeProps {
