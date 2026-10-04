@@ -1,6 +1,8 @@
-Django
+Django>=5.2,<5.3
 djangorestframework
-django-cors-headers
-Pillow
 djangorestframework-simplejwt
-djangorestframework django-filter
+django-cors-headers
+django-filter
+django-jazzmin
+django-admin-sortable2
+Pillow
