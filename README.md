@@ -1,8 +1,10 @@
 # Iswarah Website
 
-An online storefront for Iswarah, a clothing brand: a product catalog with
-category, size, and price filtering, backed by a Django REST API with an admin
-dashboard for managing inventory and orders.
+The storefront for [Iswarah](https://www.iswarah.com), a registered nonprofit
+that sells apparel and accessories and donates 100% of the profits to
+Palestinian humanitarian aid. This is a rebuild of the shop: a product catalog
+with category, size, and price filtering, backed by a Django REST API with an
+admin dashboard for managing inventory and orders.
 
 **Status:** in development. The catalog, filters, and admin are working; cart
 and checkout are in progress.
